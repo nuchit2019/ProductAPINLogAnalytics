@@ -6,6 +6,8 @@ This project integrates Azure Log Analytics with a .NET application to log vario
 
 ![image](https://github.com/user-attachments/assets/482ed22d-1b76-495e-9761-5123e1673510)
 
+![image](https://github.com/user-attachments/assets/f228c2e0-5d93-4688-bfc0-72868825b86e)
+
 ## Installation
 
 1. **Clone the repository:**
