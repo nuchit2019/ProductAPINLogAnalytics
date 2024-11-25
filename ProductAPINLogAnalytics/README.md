@@ -4,6 +4,8 @@
 
 This project integrates Azure Log Analytics with a .NET application to log various events and data. It uses the `LogAnalytics.Client` library to send logs to Azure Log Analytics.
 
+![image](https://github.com/user-attachments/assets/482ed22d-1b76-495e-9761-5123e1673510)
+
 ## Installation
 
 1. **Clone the repository:**
