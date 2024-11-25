@@ -8,7 +8,7 @@ This project integrates Azure Log Analytics with a .NET application to log vario
 
 1. **Clone the repository:**
     ```sh
-    git clone https://github.com/your-repo/ProductAPINLogAnalytics.git
+    git clone https://github.com/nuchit2019/ProductAPINLogAnalytics.git
     ```
 
 2. **Navigate to the project directory:**
