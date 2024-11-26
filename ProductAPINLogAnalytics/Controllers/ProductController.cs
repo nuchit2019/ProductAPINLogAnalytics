@@ -43,6 +43,10 @@ namespace ProductAPINLogAnalytics.Controllers
 
                 /* END Business logic Code...  */
 
+
+                //====================================//
+                //3. Successfully Process CreateProduct
+                //====================================//
                 _logger.LogInformation(_logService.FormatMessage("Product created successfully: {ProductName}", product.Name));//.................................................. Log Console
                 objLog = _logService.LogInfo(_logService.FormatMessage("Product created successfully"), createdProduct);//......................................................... Log Analytics
                 lslogEntry.Add(objLog);
@@ -55,7 +59,7 @@ namespace ProductAPINLogAnalytics.Controllers
             catch (Exception ex)
             {
                 //====================================//
-                //3. Error Process CreateProduct
+                //4. Error Process CreateProduct
                 //====================================//
                 string errorMessage = $"Error Process CreateProduct: {product.Name}";
                 var createdProductErr = new
@@ -75,14 +79,14 @@ namespace ProductAPINLogAnalytics.Controllers
             finally
             {
                 //====================================//
-                //4. END Process CreateProduct
+                //5. END Process CreateProduct
                 //====================================//
                 _logger.LogInformation(_logService.FormatMessage($"END Process CreateProduct: {product.Name}"));//................................................................. Log Console
                 var objLog = _logService.LogInfo(_logService.FormatMessage($"END Process CreateProduct:ProductName {product.Name}"), createdProduct);//............................ Log Analytics
                 lslogEntry.Add(objLog);
 
                 //====================================//
-                //5. Send List log to Log Analytics .... Sending logs in batch
+                //6. Send List log to Log Analytics .... Sending logs in batch
                 //====================================//
                 if (lslogEntry.Count > 0)
                 {

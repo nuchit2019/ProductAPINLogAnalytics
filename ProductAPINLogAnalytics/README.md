@@ -152,14 +152,22 @@ lslogEntry.Add(objLog);
      /*END Business logic Code... */
 ```
 
-3. **End Process Logging:**
+
+3. **Successfully Process:**
+```csharp        
+_logger.LogInformation(_logService.FormatMessage("Product created successfully: {ProductName}", product.Name));
+objLog = _logService.LogInfo(_logService.FormatMessage("Product created successfully"), createdProduct);
+lslogEntry.Add(objLog);
+ ```
+
+4. **End Process Logging:**
     ```csharp
     _logger.LogInformation(_logService.FormatMessage("Product created successfully: {ProductName}", product.Name));
     objLog = _logService.LogInfo(_logService.FormatMessage("Product created successfully"), createdProduct);
     lslogEntry.Add(objLog);
     ```
 
-4. **Error Handling:**
+5. **Error Handling:**
     ```csharp
     string errorMessage = $"Error Process CreateProduct(...): {product.Name}";
     var createdProductErr = new
@@ -175,7 +183,7 @@ lslogEntry.Add(objLog);
     lslogEntry.Add(objLog);
     ```
 
-5. **Send Logs to Azure Log Analytics:** Sending logs in batch
+6. **Send Logs to Azure Log Analytics:** Sending logs in batch
     ```csharp
     if (lslogEntry.Count > 0)
     {
