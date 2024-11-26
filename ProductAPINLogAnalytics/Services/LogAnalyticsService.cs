@@ -79,6 +79,8 @@ namespace ProductAPINLogAnalytics.Services
                 Level = LogLevel.Error.ToString(),
                 Message = message,
                 Timestamp = DateTime.UtcNow,
+                FileName = new System.Diagnostics.StackTrace(ex, true).GetFrame(0).GetFileName(),
+                LineNumber = new System.Diagnostics.StackTrace(ex, true).GetFrame(0).GetFileLineNumber(),
                 Details = JsonSerializer.Serialize(details)
             };
 
@@ -86,6 +88,15 @@ namespace ProductAPINLogAnalytics.Services
         }
 
         public static string FormatMessage(this ILogAnalyticsService logAnalyticsService, string message, [CallerMemberName] string memberName = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
+        {
+            var className = System.IO.Path.GetFileNameWithoutExtension(filePath);
+            var methodName = memberName;
+            var line = lineNumber;
+
+            return $"Message: {message} [C]: {className}, [M]: {methodName}, [L]: {line} ";
+        }
+
+        public static string FormatErrorMessage(this ILogAnalyticsService logAnalyticsService, string message, [CallerMemberName] string memberName = "", [CallerFilePath] string filePath = "",  int lineNumber = 0)
         {
             var className = System.IO.Path.GetFileNameWithoutExtension(filePath);
             var methodName = memberName;
