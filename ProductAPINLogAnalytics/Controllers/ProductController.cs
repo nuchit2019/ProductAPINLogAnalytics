@@ -51,8 +51,14 @@ namespace ProductAPINLogAnalytics.Controllers
                 objLog = _logService.LogInfo(_logService.FormatMessage("Product created successfully"), createdProduct);//......................................................... Log Analytics
                 lslogEntry.Add(objLog);
 
+                var lineNumber = new System.Diagnostics.StackTrace(true).GetFrame(0).GetFileLineNumber();
+                var fileName = new System.Diagnostics.StackTrace(true).GetFrame(0).GetFileName();
+                Console.WriteLine();
+                Console.WriteLine("lineNumber "+ lineNumber);
+                Console.WriteLine("fileName "+ fileName);
+                Console.WriteLine();
 
-                //throw new Exception("Test exception for logging.");
+                throw new Exception("Test exception for logging.");
 
                 return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProduct);
             }
@@ -61,18 +67,35 @@ namespace ProductAPINLogAnalytics.Controllers
                 //====================================//
                 //4. Error Process CreateProduct
                 //====================================//
+                //string errorMessage = $"Error Process CreateProduct: {product.Name}";
+                //var createdProductErr = new
+                //{
+                //    Trace = ex.StackTrace,
+                //    ExceptionMessage = ex.Message,
+                //    ErrorMessage = errorMessage,
+                //    Product = createdProduct
+                //};
+
+                //_logger.LogError(_logService.FormatMessage($"{errorMessage}, Exception: {ex.Message}, StackTrace: {ex.StackTrace}"), ex);//........................................ Log Console
+                //var objLog = _logService.LogError(_logService.FormatMessage($"{errorMessage}, Exception: {ex.Message}, StackTrace: {ex.StackTrace}"), ex, createdProductErr);//.... Log Analytics
+                //lslogEntry.Add(objLog);
+
+                //====================================//
+                //4. Error Process GetInsurerDocData
+                //====================================//
                 string errorMessage = $"Error Process CreateProduct: {product.Name}";
                 var createdProductErr = new
                 {
-                    Trace = ex.StackTrace,
                     ExceptionMessage = ex.Message,
                     ErrorMessage = errorMessage,
-                    Product = createdProduct
+                    Product = createdProduct,
+                    FileName = new System.Diagnostics.StackTrace(ex, true).GetFrame(0).GetFileName(),
+                    LineNumber = new System.Diagnostics.StackTrace(ex, true).GetFrame(0).GetFileLineNumber()
                 };
 
-                _logger.LogError(_logService.FormatMessage($"{errorMessage}, Exception: {ex.Message}, StackTrace: {ex.StackTrace}"), ex);//........................................ Log Console
-                var objLog = _logService.LogError(_logService.FormatMessage($"{errorMessage}, Exception: {ex.Message}, StackTrace: {ex.StackTrace}"), ex, createdProductErr);//.... Log Analytics
-                lslogEntry.Add(objLog);
+                _logger.LogError(_logService.FormatErrorMessage($"{errorMessage}, Exception: {ex.Message}, LineNumber: {createdProductErr.LineNumber}"), ex); // Log Console
+                var objLog = _logService.LogError(_logService.FormatMessage($"{errorMessage}, Exception: {ex.Message}, LineNumber: {createdProductErr.LineNumber}"), ex, createdProductErr); // Log Analytics
+                lslogEntry.Add(objLog); 
 
                 return StatusCode(500, $"Internal server error: {errorMessage}");
             }
